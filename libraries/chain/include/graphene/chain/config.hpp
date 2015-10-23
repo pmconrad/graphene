@@ -20,8 +20,8 @@
  */
 #pragma once
 
-#define GRAPHENE_SYMBOL "CORE"
-#define GRAPHENE_ADDRESS_PREFIX "GPH"
+#define GRAPHENE_SYMBOL "MUSE"
+#define GRAPHENE_ADDRESS_PREFIX "MUSE"
 
 #define GRAPHENE_MIN_ACCOUNT_NAME_LENGTH 3
 #define GRAPHENE_MAX_ACCOUNT_NAME_LENGTH 63
@@ -52,9 +52,9 @@
 
 #define GRAPHENE_MIN_BLOCK_SIZE_LIMIT (GRAPHENE_MIN_TRANSACTION_SIZE_LIMIT*5) // 5 transactions per block
 #define GRAPHENE_MIN_TRANSACTION_EXPIRATION_LIMIT (GRAPHENE_MAX_BLOCK_INTERVAL * 5) // 5 transactions per block
-#define GRAPHENE_BLOCKCHAIN_PRECISION                           uint64_t( 100000 )
+#define GRAPHENE_BLOCKCHAIN_PRECISION                           uint64_t( 10000 )
 
-#define GRAPHENE_BLOCKCHAIN_PRECISION_DIGITS                    5
+#define GRAPHENE_BLOCKCHAIN_PRECISION_DIGITS                    4
 #define GRAPHENE_DEFAULT_TRANSFER_FEE                           (1*GRAPHENE_BLOCKCHAIN_PRECISION)
 #define GRAPHENE_MAX_INSTANCE_ID                                (uint64_t(-1)>>16)
 /** percentage fields are fixed point with a denominator of 10,000 */
@@ -126,7 +126,31 @@
  * every second, the fraction of burned core asset which cycles is
  * GRAPHENE_CORE_ASSET_CYCLE_RATE / (1 << GRAPHENE_CORE_ASSET_CYCLE_RATE_BITS)
  */
-#define GRAPHENE_CORE_ASSET_CYCLE_RATE                        17
+//
+// we desire <10% annual dilution of 1500m / 2000m over first 1yr
+//
+// allocation          a = .75 = 1500 / 2000
+// period              p = 60*60*24*365 = 31536000
+// inflation cap       i = .1
+// scale               n = GRAPHENE_CORE_ASSET_CYCLE_RATE_BITS = 32
+// decay constant      k = GRAPHENE_CORE_ASSET_CYCLE_RATE
+//
+// r(t) = (1-a) * (1-k/2^n)**t
+// m(t) = 1-r(t)
+// m(p) = (1+i)*a
+//      = 1-r(p)
+//      = 1-(1-a) * (1-k/2^n)**p
+//
+// 1 - (1+i) * a     = (1-a) * (1-k/2^n)**p
+// (1 - a) - a*i     = (1-a) * (1-k/2^n)**p
+// 1 - (a*i / (1-a)) = (1-k/2^n)**p
+// (1 - (a*i / (1-a)))**(1/p) = 1 - k/2^n
+// 1 - (1 - (a*i / (1-a)))**(1/p) = k / 2^n
+// 2**n * (1 - (1 - (a*i / (1-a)))**(1/p)) = k
+//
+// giving k = 48
+//
+#define GRAPHENE_CORE_ASSET_CYCLE_RATE                        48
 #define GRAPHENE_CORE_ASSET_CYCLE_RATE_BITS                   32
 
 #define GRAPHENE_DEFAULT_WITNESS_PAY_PER_BLOCK            (GRAPHENE_BLOCKCHAIN_PRECISION * int64_t( 10) )
@@ -140,9 +164,9 @@
 #define GRAPHENE_RECENTLY_MISSED_COUNT_INCREMENT             4
 #define GRAPHENE_RECENTLY_MISSED_COUNT_DECREMENT             3
 
-#define GRAPHENE_CURRENT_DB_VERSION                          "test5b"
+#define GRAPHENE_CURRENT_DB_VERSION                          "muse-1"
 
-#define GRAPHENE_IRREVERSIBLE_THRESHOLD                      (70 * GRAPHENE_1_PERCENT)
+#define GRAPHENE_IRREVERSIBLE_THRESHOLD                      (60 * GRAPHENE_1_PERCENT)
 
 /**
  *  Reserved Account IDs with special meaning
