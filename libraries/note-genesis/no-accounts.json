@@ -1,0 +1,8 @@
+{
+  "replace" : {
+     "initial_accounts" : [],
+     "initial_assets" : [],
+     "initial_vesting_balances" : [],
+     "max_core_supply": "20000000000000"
+  }
+}

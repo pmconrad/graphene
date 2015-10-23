@@ -1,0 +1,297 @@
+{
+  "replace": {
+    "immutable_parameters": {
+      "min_committee_member_count": 11,
+      "min_witness_count": 11,
+      "num_special_accounts": 100,
+      "num_special_assets": 100
+    },
+    "initial_parameters": {
+      "account_fee_scale_bitshifts": 0,
+      "accounts_per_fee_scale": 1000,
+      "allow_non_member_whitelists": false,
+      "block_interval": 3,
+      "cashback_vesting_period_seconds": 7776000,
+      "cashback_vesting_threshold": 1000000,
+      "committee_proposal_review_period": 3600,
+      "count_non_member_votes": true,
+      "current_fees": {
+        "parameters": [
+          [
+            0,
+            {
+              "fee": 200000,
+              "price_per_kbyte": 100000
+            }
+          ],
+          [
+            1,
+            {
+              "fee": 50000
+            }
+          ],
+          [
+            2,
+            {
+              "fee": 0
+            }
+          ],
+          [
+            3,
+            {
+              "fee": 200000
+            }
+          ],
+          [
+            4,
+            {}
+          ],
+          [
+            5,
+            {
+              "basic_fee": 950000,
+              "premium_fee": 20000000,
+              "price_per_kbyte": 10000
+            }
+          ],
+          [
+            6,
+            {
+              "fee": 200000,
+              "price_per_kbyte": 10000
+            }
+          ],
+          [
+            7,
+            {
+              "fee": 30000
+            }
+          ],
+          [
+            8,
+            {
+              "membership_annual_fee": 20000000,
+              "membership_lifetime_fee": 100000000
+            }
+          ],
+          [
+            9,
+            {
+              "fee": 5000000
+            }
+          ],
+          [
+            10,
+            {
+              "long_symbol": 50000000,
+              "price_per_kbyte": 1,
+              "symbol3": "5000000000",
+              "symbol4": "3000000000"
+            }
+          ],
+          [
+            11,
+            {
+              "fee": 5000000,
+              "price_per_kbyte": 1
+            }
+          ],
+          [
+            12,
+            {
+              "fee": 5000000
+            }
+          ],
+          [
+            13,
+            {
+              "fee": 5000000
+            }
+          ],
+          [
+            14,
+            {
+              "fee": 200000,
+              "price_per_kbyte": 10000
+            }
+          ],
+          [
+            15,
+            {
+              "fee": 200000
+            }
+          ],
+          [
+            16,
+            {
+              "fee": 10000
+            }
+          ],
+          [
+            17,
+            {
+              "fee": 1000000
+            }
+          ],
+          [
+            18,
+            {
+              "fee": 5000000
+            }
+          ],
+          [
+            19,
+            {
+              "fee": 10000
+            }
+          ],
+          [
+            20,
+            {
+              "fee": 50000000
+            }
+          ],
+          [
+            21,
+            {
+              "fee": 200000
+            }
+          ],
+          [
+            22,
+            {
+              "fee": 200000,
+              "price_per_kbyte": 1
+            }
+          ],
+          [
+            23,
+            {
+              "fee": 10000,
+              "price_per_kbyte": 1
+            }
+          ],
+          [
+            24,
+            {
+              "fee": 10000
+            }
+          ],
+          [
+            25,
+            {
+              "fee": 10000
+            }
+          ],
+          [
+            26,
+            {
+              "fee": 200000
+            }
+          ],
+          [
+            27,
+            {
+              "fee": 0,
+              "price_per_kbyte": 1
+            }
+          ],
+          [
+            28,
+            {
+              "fee": 50000000
+            }
+          ],
+          [
+            29,
+            {
+              "fee": 10000
+            }
+          ],
+          [
+            30,
+            {
+              "fee": 10000
+            }
+          ],
+          [
+            31,
+            {
+              "fee": 200000
+            }
+          ],
+          [
+            32,
+            {
+              "fee": 50000000
+            }
+          ],
+          [
+            33,
+            {
+              "fee": 10000
+            }
+          ],
+          [
+            34,
+            {
+              "fee": 10000
+            }
+          ],
+          [
+            35,
+            {
+              "fee": 10000,
+              "price_per_kbyte": 1
+            }
+          ],
+          [
+            36,
+            {
+              "fee": 200000
+            }
+          ],
+          [
+            37,
+            {}
+          ],
+          [
+            38,
+            {
+              "fee": 50000,
+              "price_per_kbyte": 1
+            }
+          ],
+          [
+            39,
+            {
+              "fee": 50000,
+              "price_per_output": 50000
+            }
+          ]
+        ],
+        "scale": 10000
+      },
+      "extensions": [],
+      "fee_liquidation_threshold": 1000000,
+      "lifetime_referrer_percent_of_fee": 3000,
+      "maintenance_interval": 3600,
+      "maintenance_skip_slots": 3,
+      "max_authority_depth": 2,
+      "max_predicate_opcode": 1,
+      "maximum_asset_feed_publishers": 10,
+      "maximum_asset_whitelist_authorities": 10,
+      "maximum_authority_membership": 10,
+      "maximum_block_size": 2097152,
+      "maximum_committee_count": 1001,
+      "maximum_proposal_lifetime": 2419200,
+      "maximum_time_until_expiration": 86400,
+      "maximum_transaction_size": 98304,
+      "maximum_witness_count": 1001,
+      "network_percent_of_fee": 2000,
+      "reserve_percent_of_fee": 10000,
+      "witness_pay_per_block": 30000,
+      "worker_budget_per_day": "5000000000"
+    }
+  }
+}

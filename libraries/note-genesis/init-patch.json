@@ -1,0 +1,157 @@
+{
+  "append": {
+    "initial_accounts": [
+      {
+        "active_key": "BTS8gLoV9SUhWwiyjjakLSxUZjpbvCW6LsSRgitvHLx7H46W6TLdf",
+        "is_lifetime_member": true,
+        "name": "init0",
+        "owner_key": "BTS7Z3jHqE7GYkP1yxeWmZFSGYcQje1kaev7o1dAs4tqHkF8NRkL3"
+      },
+      {
+        "active_key": "BTS7UcV3gV4ea8G6k7cjPvHy4TCi6njUQJuqaVTDSmnGRLiYFmJRJ",
+        "is_lifetime_member": true,
+        "name": "init1",
+        "owner_key": "BTS8VbyLfDoXdLuBBK6WdFdMZGLUMPeooX8yD8ML9r3aS4P7fSjSs"
+      },
+      {
+        "active_key": "BTS6z4vprD3YoanWAVCjFdLNWjAiBhTLLpaPRpGG98skB1BoR9VwS",
+        "is_lifetime_member": true,
+        "name": "init2",
+        "owner_key": "BTS8FMtXeodoytsZtWmDjomwnTALmZZuoxbAgEGBGdUitkXbcMNTL"
+      },
+      {
+        "active_key": "BTS5FedZFqQm9TPdFhXPbHhi2QCFtKGnYURMWyMpCPY6nrdgS35mv",
+        "is_lifetime_member": true,
+        "name": "init3",
+        "owner_key": "BTS5uEWU6JSV49qu9mdWdXxqhTUo4Zs2kAzBAH5Qy5Sk1EAiPtoYJ"
+      },
+      {
+        "active_key": "BTS7bz5afF5yeZxqaeU8sGsTjSXfHjKJy39KenqTUPF41kfzcMrLN",
+        "is_lifetime_member": true,
+        "name": "init4",
+        "owner_key": "BTS7rDkAVNC1Zj9MNkX9eLePLfJnuFV2565fBLtDrFSpugWHr1me6"
+      },
+      {
+        "active_key": "BTS5WbcY17QHuJosViXv9kazUAqMRxDTM3UGviwT2bMK9yqfaLYsc",
+        "is_lifetime_member": true,
+        "name": "init5",
+        "owner_key": "BTS6oJQ7fkgGyk7jCdXNt4VMc6FqUoso57RjDPWnZ1b2Q32r9UWMV"
+      },
+      {
+        "active_key": "BTS8CMhM83Hrbs8M1aPBHkqNporrPXmpbCjUa5rdExhMydZSrJ1h3",
+        "is_lifetime_member": true,
+        "name": "init6",
+        "owner_key": "BTS6x3hcJYGj7KLxECKtYZ24hipWy23JDcJXd7FiV8rL6V2hYHYbm"
+      },
+      {
+        "active_key": "BTS7kvz6mopPSca37mgXKLb4zAzVAAZ2qy4Kq2rUZ4xj28fKr9vD2",
+        "is_lifetime_member": true,
+        "name": "init7",
+        "owner_key": "BTS8mwGSrUsrzuM1yMH2uNSdaJhbsWCWjjdghVy3n9mRD3cYPMk15"
+      },
+      {
+        "active_key": "BTS6LLyy4GAMRSyp3s5wGBoB3Bvc8a85jUDQ1BgwGTdwcSdJMbqYb",
+        "is_lifetime_member": true,
+        "name": "init8",
+        "owner_key": "BTS5KwaTjPCcREobL1vfirin9gH4RoWsK6Fn4ftgN7Vnj7UVV536g"
+      },
+      {
+        "active_key": "BTS5u1ZWBK8gq1tcW5yq5cB94WbHmj3PBW5oTyzLm3yP7jnKi9Q1z",
+        "is_lifetime_member": true,
+        "name": "init9",
+        "owner_key": "BTS754EhAfuFTS8bGdk7PcmxfRBMcLCXz6ekkghcy7F2Ww6xW57B1"
+      },
+      {
+        "active_key": "BTS6UALY12YaNWhBgsZ34bsqxXmhAtHYFhJfgkwW4hwtR5LPmpiav",
+        "is_lifetime_member": true,
+        "name": "init10",
+        "owner_key": "BTS8GhZRJ1kQuBLpcoLVhykhuuwGcGE11ziHUdCmBYpx6MEjPctSn"
+      }
+    ]
+  },
+  "replace": {
+    "initial_active_witnesses": 11,
+    "initial_committee_candidates": [
+      {
+        "owner_name": "init0"
+      },
+      {
+        "owner_name": "init1"
+      },
+      {
+        "owner_name": "init2"
+      },
+      {
+        "owner_name": "init3"
+      },
+      {
+        "owner_name": "init4"
+      },
+      {
+        "owner_name": "init5"
+      },
+      {
+        "owner_name": "init6"
+      },
+      {
+        "owner_name": "init7"
+      },
+      {
+        "owner_name": "init8"
+      },
+      {
+        "owner_name": "init9"
+      },
+      {
+        "owner_name": "init10"
+      }
+    ],
+    "initial_witness_candidates": [
+      {
+        "block_signing_key": "BTS6BK1yyLP9iriMHRPchuqrgpj1StuCFFLRB3DKBMyQDQ2B6GJNP",
+        "owner_name": "init0"
+      },
+      {
+        "block_signing_key": "BTS7Awh9ANUCMbtMnEaKyNhPN5gX1JYmiW5nkh425BSFQeaTsaPii",
+        "owner_name": "init1"
+      },
+      {
+        "block_signing_key": "BTS5HiESBKEyDSJ4AU9XDtTw5yc5KHrqmA8uFHcDLcL4158McyTtr",
+        "owner_name": "init2"
+      },
+      {
+        "block_signing_key": "BTS7Mg5s8rTM8qymbhEwJHNG7kCwkJt1PAh3C2FY2SdHP6dtzeMwz",
+        "owner_name": "init3"
+      },
+      {
+        "block_signing_key": "BTS8RhVBuBHspvUTmVisJz5oDWYVcnUxzt8fVZtcb75wDNJhEfgbQ",
+        "owner_name": "init4"
+      },
+      {
+        "block_signing_key": "BTS6kmEjyoQPoJ2DyAZdTRw5L1FqNeBmmPDe5UDNcxpMMC2yMv126",
+        "owner_name": "init5"
+      },
+      {
+        "block_signing_key": "BTS6MNBeAJbiPNEsK4wPsMise6HqCuqAygfxqovMa68mmw9LyFqRB",
+        "owner_name": "init6"
+      },
+      {
+        "block_signing_key": "BTS8LHW2xepxjkFwTs7efR93pefUWcR2RHLjkDnGctKbcJyfoaFsC",
+        "owner_name": "init7"
+      },
+      {
+        "block_signing_key": "BTS5iZWLUpan7TmrF9VjdQqSBLEViy8tqPopzoPUrJ6ychfBCcX2K",
+        "owner_name": "init8"
+      },
+      {
+        "block_signing_key": "BTS7crW5j1wXLtXYxHvY5EfwF8qBQjUu9wSY3TnQive4pjaySpzSu",
+        "owner_name": "init9"
+      },
+      {
+        "block_signing_key": "BTS6qgDzYobv9xedMYnexqzqiWvs4kf88tYei61xxdVLnPVXek2WU",
+        "owner_name": "init10"
+      }
+    ],
+    "initial_worker_candidates": []
+  }
+}

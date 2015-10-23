@@ -1,0 +1,21 @@
+{
+  "append": {
+   "initial_balances": [
+      {
+        "amount": "1442729297",
+        "asset_symbol": "MUSE",
+        "owner": "MUSED4G4R4KgVmNhcPmj5KpbK7MCVPQeY9RYh"
+      },
+      {
+        "amount": "622637528",
+        "asset_symbol": "MUSE",
+        "owner": "MUSErkfDKV7WFYNYVkX6E3Rc9FiuheTT95kQ"
+      },
+      {
+        "amount": "100000000",
+        "asset_symbol": "MUSE",
+        "owner": "MUSENwrUvuG2DLhLAgp72j75GRrMckijHJgoN"
+      }
+   ]
+  }
+}

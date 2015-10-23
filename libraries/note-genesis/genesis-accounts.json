@@ -1,0 +1,21 @@
+[
+   {
+      "name" : "larroc",
+      "balances" : [{"asset_symbol" : "MUSE", "amount" : "750000000000"}]
+   },
+   {
+      "name" : "cob",
+      "balances" : [{"asset_symbol" : "MUSE", "amount" : "750000000000"}]
+   },
+   {  "name" : "dite"        },
+   {  "name" : "taulant"     },
+   {  "name" : "nikolai"     },
+   {  "name" : "bytemaster"  },
+   {  "name" : "theoretical" },
+   {  "name" : "faucet"      },
+   {
+      "name" : "muse",
+      "balances" : [{"asset_symbol" : "MUSE", "amount" : "761799713846"}]
+   },
+   {  "name" : "note"        }
+]

@@ -1,0 +1,83 @@
+{
+  "append": {
+    "initial_accounts": [
+      {
+        "active_key": "MUSE8YamfN5SUWC7w6FMJnjDWNRKecbzGuSDdZYcJTfnBeUS3QXrZX",
+        "is_lifetime_member": true,
+        "name": "larroc",
+        "owner_key": "MUSE7tb3RVA31aHtZ4zn924RhqYC7iUa5bDxpVbRfzYu4GygnDmcyc"
+      },
+      {
+        "active_key": "MUSE7eFdAsnXhPB6cjvBswReQM8UaZhBhhspRrGUZ7deyf335MGEUH",
+        "is_lifetime_member": true,
+        "name": "cob",
+        "owner_key": "MUSE5ZJXqHFCPZA6XtjodBMFhaR2trp4CFKDdXFSkWSMo98pUxMhvr"
+      },
+      {
+        "active_key": "MUSE6yeyP69EE9EiraWruCwqN6HchS9XSa5Y2Q5LmRo2ehMdjYWYsg",
+        "is_lifetime_member": true,
+        "name": "dite",
+        "owner_key": "MUSE6NtrcRY68QDAtuMEpmqMmwFVacFAxzZXDhAX24FuZWcTPp6nNV"
+      },
+      {
+        "active_key": "MUSE66cTsDX4jU74Sme6imkvC99P9Ny2w4koUFAshkwnEzLNwrgcWo",
+        "is_lifetime_member": true,
+        "name": "taulant",
+        "owner_key": "MUSE73ZxjBcgnVmbqMyRBVg8cjhSBKdFHbjRHHt5uZUATU84hkKcs9"
+      },
+      {
+        "active_key": "MUSE7mhuC9r7rAfFVHNRTtzwDL1vmzVVFnXdP4MkTTjjLMpetpURug",
+        "is_lifetime_member": true,
+        "name": "nikolai",
+        "owner_key": "MUSE8AcY1SHxpL18q2UrvMsFMpQZLBpRtJXwfYAxdahK8v5kioAgHX"
+      },
+      {
+        "active_key": "MUSE5FUJb8SwTxNUJssmwSsJmnM8ZAcBwEMTXLJr98YTYzaPp2gKdA",
+        "is_lifetime_member": true,
+        "name": "bytemaster",
+        "owner_key": "MUSE7oyeY3fA5c7Y4gxHSCsXLY5H9aRAGfDMqHSYP24JTKMjh3WteG"
+      },
+      {
+        "active_key": "MUSE6ihWkjSXyvTfYbhUSHqFCH4rA6B695uJhgrHXsKRW3JJyiRYcH",
+        "is_lifetime_member": true,
+        "name": "theoretical",
+        "owner_key": "MUSE6STdN119m81p46Nd3akaTFWTXjYjunLhH81qMtWjYTcFCy5S1E"
+      },
+      {
+        "active_key": "MUSE6bhjUjN3TgA3e2gMGcxCqoQHdygpLieoDU3bLs9oqMrz1Fca9y",
+        "is_lifetime_member": true,
+        "name": "faucet",
+        "owner_key": "MUSE5NCj45t2QkCeSrRudpSRb9B9a2t9KUtauwSpUZSNAJ9x9B34pW"
+      },
+      {
+        "active_key": "MUSE6cBjSZMxQa2bco44v5uvqzGjSngx3VNji3M5WCBo2sRceJTgQo",
+        "is_lifetime_member": true,
+        "name": "muse",
+        "owner_key": "MUSE7DVkQghuCVndKNNUtXmXkKmWJ75hMzwzo4ntdm8he91S2YJtpt"
+      },
+      {
+        "active_key": "MUSE8RvZn3tEvZk7xqn9MdEcCUhgm5N1ANWHviF2heCbJDoybHiUbX",
+        "is_lifetime_member": true,
+        "name": "note",
+        "owner_key": "MUSE8BgM6qSiFoorQWXmhXw5aLiyhRDeCGBRcrkWry3am15reojhGx"
+      }
+    ],
+    "initial_balances": [
+      {
+        "amount": "750000000000",
+        "asset_symbol": "MUSE",
+        "owner": "MUSEB2VS19zrfcpTvfZB96TqecF6fQcHTvA9T"
+      },
+      {
+        "amount": "750000000000",
+        "asset_symbol": "MUSE",
+        "owner": "MUSEJDnht1sJhWV9nM4b7dhZRwqWmug32fC25"
+      },
+      {
+        "amount": "761799713846",
+        "asset_symbol": "MUSE",
+        "owner": "MUSE3BkPu9uioi4YL7AVi773J7ry2cN1AQshv"
+      }
+    ]
+  }
+}
