@@ -310,6 +310,32 @@ namespace graphene { namespace app {
        return result;
     } // end get_relevant_accounts( obj )
 
+    vector<order_history_object> history_api::get_fill_order_history( asset_id_type a, asset_id_type b, uint32_t limit  )const
+    {
+       FC_ASSERT(_app.chain_database());
+       const auto& db = *_app.chain_database();
+       if( a > b ) std::swap(a,b);
+       const auto& history_idx = db.get_index_type<graphene::market_history::history_index>().indices().get<by_key>();
+       history_key hkey;
+       hkey.base = a;
+       hkey.quote = b;
+       hkey.sequence = std::numeric_limits<int64_t>::min();
+
+       uint32_t count = 0;
+       auto itr = history_idx.lower_bound( hkey );
+       vector<order_history_object> result;
+       while( itr != history_idx.end() )
+       {
+          if( itr->key.base != a || itr->key.quote != b ) break;
+          result.push_back( *itr );
+          ++itr;
+          ++count;
+          if( count  > limit ) break;
+       }
+
+       return result;
+    }
+
     vector<operation_history_object> history_api::get_account_history(account_id_type account, operation_history_id_type stop, unsigned limit, operation_history_id_type start) const
     {
        FC_ASSERT(_app.chain_database());
