@@ -1,22 +1,25 @@
 /*
  * Copyright (c) 2015 Cryptonomex, Inc., and contributors.
- * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+ * The MIT License
  *
- * 1. Any modified source or binaries are used only with the BitShares network.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * 2. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
- * 3. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 #pragma once
 #include <graphene/chain/exceptions.hpp>
@@ -86,6 +89,22 @@ namespace graphene { namespace chain {
       virtual operation_result evaluate(const operation& op) = 0;
       virtual operation_result apply(const operation& op) = 0;
 
+      /**
+       * Routes the fee to where it needs to go.  The default implementation
+       * routes the fee to the account_statistics_object of the fee_paying_account.
+       *
+       * Before pay_fee() is called, the fee is computed by prepare_fee() and has been
+       * moved out of the fee_paying_account and (if paid in a non-CORE asset) converted
+       * by the asset's fee pool.
+       *
+       * Therefore, when pay_fee() is called, the fee only exists in this->core_fee_paid.
+       * So pay_fee() need only increment the receiving balance.
+       *
+       * The default implementation simply calls account_statistics_object->pay_fee() to
+       * increment pending_fees or pending_vested_fees.
+       */
+      virtual void pay_fee();
+
       database& db()const;
 
       //void check_required_authorities(const operation& op);
@@ -97,10 +116,24 @@ namespace graphene { namespace chain {
        *
        * This method verifies that the fee is valid and sets the object pointer members and the fee fields. It should
        * be called during do_evaluate.
+       *
+       * In particular, core_fee_paid field is set by prepare_fee().
        */
       void prepare_fee(account_id_type account_id, asset fee);
-      /// Pays the fee and returns the number of CORE asset that were paid.
-      void pay_fee();
+
+      /**
+       * Convert the fee into BTS through the exchange pool.
+       *
+       * Reads core_fee_paid field for how much CORE is deducted from the exchange pool,
+       * and fee_from_account for how much USD is added to the pool.
+       *
+       * Since prepare_fee() does the validation checks ensuring the account and fee pool
+       * have sufficient balance and the exchange rate is correct,
+       * those validation checks are not replicated here.
+       *
+       * Rather than returning a value, this method fills in core_fee_paid field.
+       */
+      void convert_fee();
 
       object_id_type get_relative_id( object_id_type rel_id )const;
 
@@ -201,11 +234,13 @@ namespace graphene { namespace chain {
 
          return eval->do_evaluate(op);
       }
+
       virtual operation_result apply(const operation& o) final override
       {
          auto* eval = static_cast<DerivedEvaluator*>(this);
          const auto& op = o.get<typename DerivedEvaluator::operation_type>();
 
+         convert_fee();
          pay_fee();
 
          auto result = eval->do_apply(op);

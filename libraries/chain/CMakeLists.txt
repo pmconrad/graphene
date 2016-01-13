@@ -1,22 +1,37 @@
+
+add_custom_target( build_hardfork_hpp
+                   COMMAND cat-parts hardfork.d include/graphene/chain/hardfork.hpp )
+
+add_dependencies( build_hardfork_hpp cat-parts )
+
 file(GLOB HEADERS "include/graphene/chain/*.hpp")
+
+if( GRAPHENE_DISABLE_UNITY_BUILD )
+   set( GRAPHENE_DB_FILES
+        db_balance.cpp
+        db_block.cpp
+        db_debug.cpp
+        db_getter.cpp
+        db_init.cpp
+        db_maint.cpp
+        db_management.cpp
+        db_market.cpp
+        db_update.cpp
+        db_witness_schedule.cpp
+      )
+   message( STATUS "Graphene database unity build disabled" )
+else( GRAPHENE_DISABLE_UNITY_BUILD )
+   set( GRAPHENE_DB_FILES
+        database.cpp )
+   message( STATUS "Graphene database unity build enabled" )
+endif( GRAPHENE_DISABLE_UNITY_BUILD )
 
 ## SORT .cpp by most likely to change / break compile
 add_library( graphene_chain
 
              # As database takes the longest to compile, start it first
-             database.cpp
+             ${GRAPHENE_DB_FILES}
              fork_database.cpp
-
-#             db_balance.cpp
-#             db_block.cpp
-#             db_debug.cpp
-#             db_getter.cpp
-#             db_init.cpp
-#             db_maint.cpp
-#             db_management.cpp
-#             db_market.cpp
-#             db_update.cpp
-#             db_witness_schedule.cpp
 
              protocol/types.cpp
              protocol/address.cpp
@@ -69,8 +84,10 @@ add_library( graphene_chain
              block_database.cpp
 
              ${HEADERS}
+             include/graphene/chain/hardfork.hpp
            )
 
+add_dependencies( graphene_chain build_hardfork_hpp )
 target_link_libraries( graphene_chain fc graphene_db )
 target_include_directories( graphene_chain
                             PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include" )

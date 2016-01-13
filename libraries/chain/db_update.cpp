@@ -1,22 +1,25 @@
 /*
  * Copyright (c) 2015 Cryptonomex, Inc., and contributors.
- * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+ * The MIT License
  *
- * 1. Any modified source or binaries are used only with the BitShares network.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * 2. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
- * 3. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 #include <graphene/chain/database.hpp>
@@ -24,11 +27,12 @@
 
 #include <graphene/chain/asset_object.hpp>
 #include <graphene/chain/global_property_object.hpp>
+#include <graphene/chain/market_object.hpp>
 #include <graphene/chain/proposal_object.hpp>
 #include <graphene/chain/transaction_object.hpp>
-#include <graphene/chain/market_evaluator.hpp>
 #include <graphene/chain/withdraw_permission_object.hpp>
 #include <graphene/chain/witness_object.hpp>
+
 #include <graphene/chain/protocol/fee_schedule.hpp>
 
 #include <fc/uint128.hpp>
@@ -273,25 +277,47 @@ void database::clear_expired_orders()
    {
       asset_id_type current_asset = settlement_index.begin()->settlement_asset_id();
       asset max_settlement_volume;
+      bool extra_dump = false;
 
-      auto next_asset = [&current_asset, &settlement_index] {
+      auto next_asset = [&current_asset, &settlement_index, &extra_dump] {
          auto bound = settlement_index.upper_bound(current_asset);
          if( bound == settlement_index.end() )
+         {
+            if( extra_dump )
+            {
+               ilog( "next_asset() returning false" );
+            }
             return false;
+         }
+         if( extra_dump )
+         {
+            ilog( "next_asset returning true, bound is ${b}", ("b", *bound) );
+         }
          current_asset = bound->settlement_asset_id();
          return true;
       };
+
+      uint32_t count = 0;
 
       // At each iteration, we either consume the current order and remove it, or we move to the next asset
       for( auto itr = settlement_index.lower_bound(current_asset);
            itr != settlement_index.end();
            itr = settlement_index.lower_bound(current_asset) )
       {
+         ++count;
          const force_settlement_object& order = *itr;
          auto order_id = order.id;
          current_asset = order.settlement_asset_id();
          const asset_object& mia_object = get(current_asset);
-         const asset_bitasset_data_object mia = mia_object.bitasset_data(*this);
+         const asset_bitasset_data_object& mia = mia_object.bitasset_data(*this);
+
+         extra_dump = ((count >= 1000) && (count <= 1020));
+
+         if( extra_dump )
+         {
+            wlog( "clear_expired_orders() dumping extra data for iteration ${c}", ("c", count) );
+            ilog( "head_block_num is ${hb} current_asset is ${a}", ("hb", head_block_num())("a", current_asset) );
+         }
 
          if( mia.has_settlement() )
          {
@@ -304,7 +330,13 @@ void database::clear_expired_orders()
          if( order.settlement_date > head_block_time() )
          {
             if( next_asset() )
+            {
+               if( extra_dump )
+               {
+                  ilog( "next_asset() returned true when order.settlement_date > head_block_time()" );
+               }
                continue;
+            }
             break;
          }
          // Can we still settle in this asset?
@@ -325,7 +357,13 @@ void database::clear_expired_orders()
                  ("settled_volume", mia.force_settled_volume)("max_volume", max_settlement_volume));
                  */
             if( next_asset() )
+            {
+               if( extra_dump )
+               {
+                  ilog( "next_asset() returned true when mia.force_settled_volume >= max_settlement_volume.amount" );
+               }
                continue;
+            }
             break;
          }
 
@@ -348,6 +386,12 @@ void database::clear_expired_orders()
             assert(itr != call_index.end() && itr->debt_type() == mia_object.get_id());
             asset max_settlement = max_settlement_volume - settled;
 
+            if( order.balance.amount == 0 )
+            {
+               wlog( "0 settlement detected" );
+               cancel_order( order );
+               break;
+            }
             try {
                settled += match(*itr, order, settlement_price, max_settlement);
             } 
@@ -366,11 +410,13 @@ void database::clear_expired_orders()
 
 void database::update_expired_feeds()
 {
-   auto& asset_idx = get_index_type<asset_index>().indices();
-   for( const asset_object& a : asset_idx )
+   auto& asset_idx = get_index_type<asset_index>().indices().get<by_type>();
+   auto itr = asset_idx.lower_bound( true /** market issued */ );
+   while( itr != asset_idx.end() )
    {
-      if( !a.is_market_issued() )
-         continue;
+      const asset_object& a = *itr;
+      ++itr;
+      assert( a.is_market_issued() );
 
       const asset_bitasset_data_object& b = a.bitasset_data(*this);
       if( b.feed_is_expired(head_block_time()) )

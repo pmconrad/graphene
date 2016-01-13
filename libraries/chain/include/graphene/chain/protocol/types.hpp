@@ -1,22 +1,25 @@
 /*
  * Copyright (c) 2015 Cryptonomex, Inc., and contributors.
- * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+ * The MIT License
  *
- * 1. Any modified source or binaries are used only with the BitShares network.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * 2. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
- * 3. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 #pragma once
 #include <fc/container/flat_fwd.hpp>
@@ -248,16 +251,67 @@ namespace graphene { namespace chain {
        bool is_valid_v1( const std::string& base58str );
    };
 
+   struct extended_public_key_type
+   {
+      struct binary_key
+      {
+         binary_key() {}
+         uint32_t                   check = 0;
+         fc::ecc::extended_key_data data;
+      };
+      
+      fc::ecc::extended_key_data key_data;
+       
+      extended_public_key_type();
+      extended_public_key_type( const fc::ecc::extended_key_data& data );
+      extended_public_key_type( const fc::ecc::extended_public_key& extpubkey );
+      explicit extended_public_key_type( const std::string& base58str );
+      operator fc::ecc::extended_public_key() const;
+      explicit operator std::string() const;
+      friend bool operator == ( const extended_public_key_type& p1, const fc::ecc::extended_public_key& p2);
+      friend bool operator == ( const extended_public_key_type& p1, const extended_public_key_type& p2);
+      friend bool operator != ( const extended_public_key_type& p1, const extended_public_key_type& p2);
+   };
+   
+   struct extended_private_key_type
+   {
+      struct binary_key
+      {
+         binary_key() {}
+         uint32_t                   check = 0;
+         fc::ecc::extended_key_data data;
+      };
+      
+      fc::ecc::extended_key_data key_data;
+       
+      extended_private_key_type();
+      extended_private_key_type( const fc::ecc::extended_key_data& data );
+      extended_private_key_type( const fc::ecc::extended_private_key& extprivkey );
+      explicit extended_private_key_type( const std::string& base58str );
+      operator fc::ecc::extended_private_key() const;
+      explicit operator std::string() const;
+      friend bool operator == ( const extended_private_key_type& p1, const fc::ecc::extended_private_key& p2);
+      friend bool operator == ( const extended_private_key_type& p1, const extended_private_key_type& p2);
+      friend bool operator != ( const extended_private_key_type& p1, const extended_private_key_type& p2);
+   };
 } }  // graphene::chain
 
 namespace fc
 {
     void to_variant( const graphene::chain::public_key_type& var,  fc::variant& vo );
     void from_variant( const fc::variant& var,  graphene::chain::public_key_type& vo );
+    void to_variant( const graphene::chain::extended_public_key_type& var, fc::variant& vo );
+    void from_variant( const fc::variant& var, graphene::chain::extended_public_key_type& vo );
+    void to_variant( const graphene::chain::extended_private_key_type& var, fc::variant& vo );
+    void from_variant( const fc::variant& var, graphene::chain::extended_private_key_type& vo );
 }
 
 FC_REFLECT( graphene::chain::public_key_type, (key_data) )
 FC_REFLECT( graphene::chain::public_key_type::binary_key, (data)(check) )
+FC_REFLECT( graphene::chain::extended_public_key_type, (key_data) )
+FC_REFLECT( graphene::chain::extended_public_key_type::binary_key, (check)(data) )
+FC_REFLECT( graphene::chain::extended_private_key_type, (key_data) )
+FC_REFLECT( graphene::chain::extended_private_key_type::binary_key, (check)(data) )
 
 FC_REFLECT_ENUM( graphene::chain::object_type,
                  (null_object_type)
@@ -310,6 +364,7 @@ FC_REFLECT_TYPENAME( graphene::chain::operation_history_id_type )
 FC_REFLECT_TYPENAME( graphene::chain::withdraw_permission_id_type )
 FC_REFLECT_TYPENAME( graphene::chain::vesting_balance_id_type )
 FC_REFLECT_TYPENAME( graphene::chain::worker_id_type )
+FC_REFLECT_TYPENAME( graphene::chain::balance_id_type )
 FC_REFLECT_TYPENAME( graphene::chain::global_property_id_type )
 FC_REFLECT_TYPENAME( graphene::chain::dynamic_global_property_id_type )
 FC_REFLECT_TYPENAME( graphene::chain::asset_dynamic_data_id_type )
