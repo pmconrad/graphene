@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+#include <algorithm>
 #include <graphene/chain/protocol/fee_schedule.hpp>
 #include <fc/smart_ref_impl.hpp>
 
@@ -39,6 +40,8 @@ namespace fc
 namespace graphene { namespace chain {
 
    typedef fc::smart_ref<fee_schedule> smart_fee_schedule;
+
+   static smart_fee_schedule tmp;
 
    fee_schedule::fee_schedule()
    {
