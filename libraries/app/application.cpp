@@ -790,7 +790,7 @@ namespace detail {
           }
           while (low_block_num <= high_block_num);
 
-          idump((synopsis));
+          //idump((synopsis));
           return synopsis;
       } FC_CAPTURE_AND_RETHROW() }
 
